@@ -2,24 +2,24 @@ import "./App.css";
 import { useAccount, useNetwork, useWalletClient } from "wagmi";
 import { getPublicClient } from "@wagmi/core";
 import { HatsClient } from "@hatsprotocol/sdk-v1-core";
-import { useEffect, useState } from "react";
+// import { useEffect } from "react";
 
 function App() {
   const { chain } = useNetwork();
   const publicClient = getPublicClient({ chainId: 5 });
   const { data: walletClient } = useWalletClient();
   const { address } = useAccount();
-  const [userAddress, setUserAddress] = useState(address);
-  const [isProductDesigner, setIsProductDesigner] = useState<boolean>(false);
-  const [isCusSup, setIsCusSup] = useState<boolean>(false);
+  // const [userAddress, setUserAddress] = useState(address);
+  // const [isProductDesigner, setIsProductDesigner] = useState<boolean>(false);
+  // const [isCusSup, setIsCusSup] = useState<boolean>(false);
 
-  const pdhatId = BigInt(
-    "161760091391597659884661404783576847334135720567102765703756909641728"
-  );
+  // const pdhatId = BigInt(
+  //   "161760091391597659884661404783576847334135720567102765703756909641728"
+  // );
 
-  const cshatId = BigInt(
-    "161760091391597468324180298184800455458961011611171096381022569234432"
-  );
+  // const cshatId = BigInt(
+  //   "161760091391597468324180298184800455458961011611171096381022569234432"
+  // );
 
   const hatsClient = new HatsClient({
     chainId: chain?.id || 5,
@@ -27,29 +27,38 @@ function App() {
     walletClient: walletClient!,
   });
 
-  useEffect(() => {
-    setIsProductDesigner(false);
-    setIsCusSup(false);
-    hatsProtocol();
-  }, [userAddress]);
+  // useEffect(() => {
+  //   setIsProductDesigner(false);
+  //   setIsCusSup(false);
+  //   hatsProtocol();
+  // }, [userAddress]);
 
   const hatsProtocol = async () => {
-    const isWearerofPD = await hatsClient.isWearerOfHat({
-      wearer: userAddress!,
-      hatId: pdhatId,
-    });
-    if (isWearerofPD) setIsProductDesigner(true);
+    // const isWearerofPD = await hatsClient.isWearerOfHat({
+    //   wearer: userAddress!,
+    //   hatId: pdhatId,
+    // });
+    // if (isWearerofPD) setIsProductDesigner(true);
+    // const isWearerofCS = await hatsClient.isWearerOfHat({
+    //   wearer: userAddress!,
+    //   hatId: cshatId,
+    // });
+    // if (isWearerofCS) setIsCusSup(true);
 
-    const isWearerofCS = await hatsClient.isWearerOfHat({
-      wearer: userAddress!,
-      hatId: cshatId,
+    const mintTopHatResult = await hatsClient.mintTopHat({
+      account: address!,
+      target: address!,
+      details: "TEST TOP HAT",
     });
-    if (isWearerofCS) setIsCusSup(true);
+    console.log({ mintTopHatResult });
   };
+
+  // const myTopHat =
+  //   "10568299093523050799509469914111695224065760613635904412592615217692672n";
 
   return (
     <div className="App">
-      <button
+      {/* <button
         onClick={() =>
           setUserAddress("0x3216187edfd4a808f95f23702ec971e301706f2b")
         }
@@ -85,7 +94,9 @@ function App() {
         >
           <h2>{isCusSup ? "Access granted" : "Access denied"}</h2>
         </div>
-      </div>
+      </div> */}
+
+      <button onClick={() => hatsProtocol()}>CLICK MEEEE !!!!!</button>
     </div>
   );
 }
